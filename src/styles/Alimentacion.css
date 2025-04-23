@@ -1,0 +1,134 @@
+.alimentacion-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Estilos para la tabla de días */
+#dias-semana-alimentacion {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+#dias-semana-alimentacion th {
+  padding: 10px;
+  text-align: center;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#dias-semana-alimentacion th:hover {
+  background-color: #e0e0e0;
+}
+
+#dias-semana-alimentacion th.dia-seleccionado {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Estilos para la tabla de alimentos */
+.tabla-container {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+#tabla-alimentos {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#tabla-alimentos th,
+#tabla-alimentos td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+#tabla-alimentos th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#tabla-alimentos tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#tabla-alimentos td:first-child {
+  width: 50px;
+  text-align: center;
+}
+
+/* Estilos para los checkboxes */
+#tabla-alimentos input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  vertical-align: middle;
+}
+
+/* Estilos para la sección de resultados */
+#resultadosAlimentosCompletados {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#resultadosAlimentosCompletados h2 {
+  color: #2e7d32;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+#resultadosAlimentosCompletados p {
+  margin: 8px 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .alimentacion-container {
+    padding: 10px;
+  }
+
+  #tabla-alimentos th,
+  #tabla-alimentos td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  #resultadosAlimentosCompletados {
+    padding: 15px;
+  }
+
+  #resultadosAlimentosCompletados h2 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #dias-semana-alimentacion th {
+    padding: 8px 5px;
+    font-size: 0.9rem;
+  }
+
+  #tabla-alimentos th,
+  #tabla-alimentos td {
+    padding: 6px;
+    font-size: 0.8rem;
+  }
+
+  #resultadosAlimentosCompletados h2 {
+    font-size: 1.2rem;
+  }
+
+  #resultadosAlimentosCompletados p {
+    font-size: 1rem;
+  }
+}

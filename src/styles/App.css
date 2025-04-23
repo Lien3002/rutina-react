@@ -1,0 +1,11 @@
+/* Estilos globales de la aplicación */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Aseguramos que el contenido principal tenga espacio debajo del navbar */
+main {
+  padding-top: 1rem;
+}

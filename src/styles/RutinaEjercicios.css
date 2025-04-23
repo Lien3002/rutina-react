@@ -1,0 +1,170 @@
+#rutina-ejercicios {
+  margin-top: 20px;
+}
+
+#rutina-ejercicios h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Estilos para los días de la semana */
+#dias-semana {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+#dias-semana th {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+  background-color: #a5d6a7;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+#dias-semana th::after {
+  display: none;
+}
+
+#dias-semana th.selected {
+  background-color: #2e7d32;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+#dias-semana th:hover {
+  background-color: #81c784;
+}
+
+/* Sección de calentamiento */
+.calentamiento-section {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  margin: 20px 0;
+  border: 2px solid #e87142;
+}
+
+.calentamiento-section input[type="checkbox"] {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+
+.calentamiento-section strong {
+  color: #2e7d32;
+  font-size: 1.1em;
+}
+
+/* Estilos para la tabla de ejercicios */
+#tabla-ejercicios {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+#tabla-ejercicios table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+#tabla-ejercicios thead th {
+  background-color: #66bb6a;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+#tabla-ejercicios td {
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+#tabla-ejercicios tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#tabla-ejercicios input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  vertical-align: middle;
+}
+
+/* Nota al pie */
+.rutina-note {
+  font-style: italic;
+  color: #666;
+  margin: 20px 0;
+  font-size: 0.9em;
+}
+
+/* Sección de resultados */
+#resultados {
+  background-color: #e8f5e9;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#resultados h2 {
+  color: #2e7d32;
+  margin-bottom: 15px;
+}
+
+#resultados p {
+  margin: 8px 0;
+  color: #333;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  #dias-semana th {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  #tabla-ejercicios td,
+  #tabla-ejercicios th {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .calentamiento-section {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  #dias-semana th {
+    font-size: 0;
+  }
+
+  #dias-semana th::after {
+    display: inline;
+    font-size: 14px;
+    content: attr(data-inicial);
+  }
+
+  #tabla-ejercicios {
+    margin: 0 -10px;
+  }
+
+  .calentamiento-section {
+    margin: 15px -10px;
+    border-radius: 0;
+  }
+
+  #resultados {
+    margin: 20px -10px;
+    border-radius: 0;
+  }
+}

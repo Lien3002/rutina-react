@@ -1,0 +1,116 @@
+.calendario-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.calendario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendario-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.calendario {
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.calendario-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white; /* Mantener el fondo de la tabla blanco */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.calendario-tabla th {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.calendario-tabla td {
+  border: 1px solid #ddd;
+  padding: 5px;
+  text-align: center;
+  height: 40px;
+  min-width: 40px;
+  background-color: #e8f5e9; /* Cambiar el fondo de los días a un verde claro */
+}
+
+.btn-dia {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  color: #333; /* Asegurar que el texto sea visible */
+}
+
+.btn-dia:hover {
+  background-color: #c8e6c9; /* Un verde un poco más oscuro al pasar el ratón */
+}
+
+.menu-dia {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.menu-dia strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #2e7d32;
+  font-size: 1.2rem;
+}
+
+.menu-dia em {
+  color: #666;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .calendario-container {
+    padding: 10px;
+  }
+
+  .calendario-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .calendario-tabla th,
+  .calendario-tabla td {
+    padding: 5px;
+    font-size: 0.9rem;
+  }
+
+  .btn-dia {
+    padding: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendario-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .calendario-header button {
+    width: 100%;
+  }
+
+  .calendario-tabla {
+    font-size: 0.8rem;
+  }
+}
