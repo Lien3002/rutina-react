@@ -30,7 +30,7 @@
 }
 
 .calendario-tabla th {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 10px;
   text-align: center;
@@ -58,6 +58,11 @@
 
 .btn-dia:hover {
   background-color: #c8e6c9; /* Un verde un poco más oscuro al pasar el ratón */
+}
+
+.btn-dia.seleccionado {
+  background-color: #106c12;
+  color: rgb(230, 230, 230);
 }
 
 .menu-dia {
