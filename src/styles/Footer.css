@@ -48,6 +48,19 @@
   background-color: #333333;
 }
 
+.footer-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.footer-logo {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgb(141, 133, 133);
+}
+
 .copyright {
   font-size: 0.9rem;
 }

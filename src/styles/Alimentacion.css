@@ -25,7 +25,7 @@
 }
 
 #dias-semana-alimentacion th.dia-seleccionado {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
@@ -50,7 +50,7 @@
 }
 
 #tabla-alimentos th {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
@@ -71,7 +71,7 @@
   vertical-align: middle;
 }
 
-/* Estilos para la sección de resultados */
+/* Sección de resultados específica */
 #resultadosAlimentosCompletados {
   background-color: #f8f9fa;
   padding: 20px;
@@ -101,14 +101,6 @@
   #tabla-alimentos td {
     padding: 8px;
     font-size: 0.9rem;
-  }
-
-  #resultadosAlimentosCompletados {
-    padding: 15px;
-  }
-
-  #resultadosAlimentosCompletados h2 {
-    font-size: 1.3rem;
   }
 }
 

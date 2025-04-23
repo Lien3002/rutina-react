@@ -1,49 +1,51 @@
-import { useState } from 'react';
-import '../styles/IngestaCalorica.css';
+import { useState, useCallback } from "react";
+import "../styles/IngestaCalorica.css";
+
+const FACTORES_ACTIVIDAD = {
+  sedentario: { valor: 1.2, texto: "Sedentario" },
+  ligero: { valor: 1.375, texto: "Ligero" },
+  moderado: { valor: 1.55, texto: "Moderado" },
+  activo: { valor: 1.725, texto: "Activo" },
+  muy_activo: { valor: 1.9, texto: "Muy Activo" },
+};
+
+const calcularTMB = (peso, altura, edad, genero) => {
+  const tmb = 10 * peso + 6.25 * altura - 5 * edad;
+  return genero === "masculino" ? tmb + 5 : tmb - 161;
+};
 
 const IngestaCalorica = () => {
   const [formData, setFormData] = useState({
-    peso: '',
-    altura: '',
-    edad: '',
-    genero: 'masculino',
-    actividad: 'sedentario'
+    peso: "",
+    altura: "",
+    edad: "",
+    genero: "masculino",
+    actividad: "sedentario",
   });
   const [resultado, setResultado] = useState(null);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  }, []);
 
-  const calcularCalorias = (e) => {
-    e.preventDefault();
-    
-    const { peso, altura, edad, genero, actividad } = formData;
-    let tmb;
+  const calcularCalorias = useCallback(
+    (e) => {
+      e.preventDefault();
+      const { peso, altura, edad, genero, actividad } = formData;
 
-    // Cálculo de la Tasa Metabólica Basal (TMB)
-    if (genero === 'masculino') {
-      tmb = (10 * parseFloat(peso)) + (6.25 * parseFloat(altura)) - (5 * parseInt(edad)) + 5;
-    } else {
-      tmb = (10 * parseFloat(peso)) + (6.25 * parseFloat(altura)) - (5 * parseInt(edad)) - 161;
-    }
+      const tmb = calcularTMB(
+        parseFloat(peso),
+        parseFloat(altura),
+        parseInt(edad),
+        genero
+      );
 
-    // Factor de actividad
-    const factoresActividad = {
-      sedentario: 1.2,
-      ligero: 1.375,
-      moderado: 1.55,
-      activo: 1.725,
-      muy_activo: 1.9
-    };
-
-    const ingestaCalorica = tmb * factoresActividad[actividad];
-    setResultado(ingestaCalorica.toFixed(2));
-  };
+      const ingestaCalorica = tmb * FACTORES_ACTIVIDAD[actividad].valor;
+      setResultado(ingestaCalorica.toFixed(2));
+    },
+    [formData]
+  );
 
   return (
     <div className="ingesta-calorica-container">
@@ -113,11 +115,11 @@ const IngestaCalorica = () => {
             value={formData.actividad}
             onChange={handleInputChange}
           >
-            <option value="sedentario">Sedentario</option>
-            <option value="ligero">Ligero</option>
-            <option value="moderado">Moderado</option>
-            <option value="activo">Activo</option>
-            <option value="muy_activo">Muy Activo</option>
+            {Object.entries(FACTORES_ACTIVIDAD).map(([key, { texto }]) => (
+              <option key={key} value={key}>
+                {texto}
+              </option>
+            ))}
           </select>
         </div>
 

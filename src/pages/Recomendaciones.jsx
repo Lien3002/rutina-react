@@ -1,49 +1,53 @@
-import { useState, useEffect } from 'react';
-import '../styles/Recomendaciones.css';
+import { useState, useEffect, useCallback } from "react";
+import "../styles/Recomendaciones.css";
+
+const INITIAL_FORM_STATE = {
+  nombre: "",
+  tipo: "",
+  mensaje: "",
+};
+
+const MAX_RECOMENDACIONES = 10;
 
 const Recomendaciones = () => {
   const [recomendaciones, setRecomendaciones] = useState([]);
-  const [formData, setFormData] = useState({
-    nombre: '',
-    tipo: '',
-    mensaje: ''
-  });
+  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
 
   useEffect(() => {
-    // Cargar recomendaciones guardadas al montar el componente
-    const savedRecomendaciones = JSON.parse(localStorage.getItem('recomendaciones') || '[]');
+    const savedRecomendaciones = JSON.parse(
+      localStorage.getItem("recomendaciones") || "[]"
+    );
     setRecomendaciones(savedRecomendaciones);
   }, []);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    const nuevaRecomendacion = {
-      ...formData,
-      fecha: new Date().toLocaleDateString()
-    };
+      const nuevaRecomendacion = {
+        ...formData,
+        fecha: new Date().toLocaleDateString(),
+        id: Date.now(), // Añadir un id único
+      };
 
-    // Agregar al principio y mantener solo las últimas 10
-    const updatedRecomendaciones = [nuevaRecomendacion, ...recomendaciones].slice(0, 10);
-    
-    setRecomendaciones(updatedRecomendaciones);
-    localStorage.setItem('recomendaciones', JSON.stringify(updatedRecomendaciones));
-    
-    // Limpiar el formulario
-    setFormData({
-      nombre: '',
-      tipo: '',
-      mensaje: ''
-    });
-  };
+      setRecomendaciones((prev) => {
+        const updated = [nuevaRecomendacion, ...prev].slice(
+          0,
+          MAX_RECOMENDACIONES
+        );
+        localStorage.setItem("recomendaciones", JSON.stringify(updated));
+        return updated;
+      });
+
+      setFormData(INITIAL_FORM_STATE);
+    },
+    [formData]
+  );
 
   return (
     <div className="recomendaciones-container">
@@ -104,9 +108,11 @@ const Recomendaciones = () => {
         <h2>Recomendaciones Recientes</h2>
         <div id="recomendacionesRecientes">
           {recomendaciones.map((recomendacion, index) => (
-            <div key={index} className="recomendacion-item mb-3">
+            <div key={recomendacion.id} className="recomendacion-item mb-3">
               <strong>{recomendacion.nombre}</strong> - {recomendacion.tipo}
-              <small className="text-muted d-block">{recomendacion.fecha}</small>
+              <small className="text-muted d-block">
+                {recomendacion.fecha}
+              </small>
               <p className="mb-0">{recomendacion.mensaje}</p>
               <hr />
             </div>

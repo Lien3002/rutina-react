@@ -39,7 +39,7 @@
   background-color: #81c784;
 }
 
-/* Sección de calentamiento */
+/* Sección de calentamiento específica */
 .calentamiento-section {
   background-color: #f8f9fa;
   padding: 15px;
@@ -105,7 +105,7 @@
   font-size: 0.9em;
 }
 
-/* Sección de resultados */
+/* Sección de resultados específica */
 #resultados {
   background-color: #e8f5e9;
   padding: 20px;
