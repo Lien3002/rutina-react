@@ -1,39 +1,4 @@
-const BRAND_INFO = {
-  name: "ESTILO DE VIDA",
-  logo: "/imagenes/logo.png",
-  alt: "Logo",
-};
-
-const SOCIAL_LINKS = [
-  {
-    name: "Facebook",
-    icon: "facebook-f",
-    url: "https://facebook.com/tuempresa",
-  },
-  {
-    name: "X",
-    icon: "fa-brands fa-x-twitter",
-    url: "https://x.com/tuempresa",
-  },
-  {
-    name: "Instagram",
-    icon: "instagram",
-    url: "https://instagram.com/tuempresa",
-  },
-  {
-    name: "LinkedIn",
-    icon: "linkedin-in",
-    url: "https://linkedin.com/company/tuempresa",
-  },
-  {
-    name: "GitHub",
-    icon: "github",
-    url: "https://github.com/tuusuario",
-  },
-];
-
-const SITE_NAME = "NET";
-const SITE_URL = "https://appejercicios.com";
+import { SITE_CONFIG, SOCIAL_LINKS } from "../constants/config";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -44,18 +9,18 @@ const Footer = () => {
       className="bg-light text-center"
       role="contentinfo"
     >
-      <div className="container py-2">
-        <div className="footer-brand mb-3">
+      <div className="container py-1">
+        <div className="footer-brand mb-1">
           <img
-            src={BRAND_INFO.logo}
-            alt={BRAND_INFO.alt}
+            src={SITE_CONFIG.logo}
+            alt={SITE_CONFIG.logoAlt}
             className="footer-logo"
-            width="50"
-            height="50"
+            width="35"
+            height="35"
           />
-          <span className="ms-2 fw-bold">{BRAND_INFO.name}</span>
+          <span className="ms-2 fw-bold">{SITE_CONFIG.name}</span>
         </div>
-        <section className="social-links mb-4">
+        <section className="social-links mb-2">
           {SOCIAL_LINKS.map(({ name, icon, url }) => (
             <a
               key={name}
@@ -70,15 +35,15 @@ const Footer = () => {
           ))}
         </section>
 
-        <div className="copyright py-2">
+        <div className="copyright py-1">
           © {currentYear} Copyright:
           <a
             className="text-dark ms-1"
-            href={SITE_URL}
+            href={SITE_CONFIG.url}
             target="_blank"
             rel="noopener noreferrer"
           >
-            {SITE_NAME}
+            {SITE_CONFIG.siteName}
           </a>
         </div>
       </div>

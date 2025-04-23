@@ -1,6 +1,6 @@
 #main-footer {
-  margin-top: auto;
-  padding: 20px 0;
+  margin-top: 10px;
+  padding: 5px 5px; /* Reducido de 20px a 10px */
 }
 
 .social-links {
@@ -10,8 +10,8 @@
 }
 
 .social-btn {
-  width: 40px;
-  height: 40px;
+  width: 30px; /* Reducido de 40px a 32px */
+  height: 30px; /* Reducido de 40px a 32px */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -52,17 +52,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
 }
 
 .footer-logo {
+  width: 35px; /* Añadido control de tamaño */
+  height: 35px; /* Añadido control de tamaño */
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgb(141, 133, 133);
+  border: 1px solid rgb(141, 133, 133); /* Reducido el borde de 2px a 1px */
 }
 
 .copyright {
-  font-size: 0.9rem;
+  font-size: 0.8rem; /* Reducido de 0.9rem a 0.8rem */
+  margin: 0; /* Añadido para eliminar margen extra */
 }
 
 .copyright a {

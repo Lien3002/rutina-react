@@ -1,22 +1,13 @@
-import { useState, useEffect } from 'react';
-import { ejerciciosPorDia } from './data/ejercicios';
-import '../styles/RutinaEjercicios.css';
+import { useState, useEffect } from "react";
+import { ejerciciosPorDia } from "./data/ejercicios";
+import { diasSemana } from "../constants/dias";
+import "../styles/RutinaEjercicios.css";
 
 const RutinaEjercicios = () => {
-  const [diaSeleccionado, setDiaSeleccionado] = useState('lunes');
+  const [diaSeleccionado, setDiaSeleccionado] = useState("lunes");
   const [ejerciciosCompletados, setEjerciciosCompletados] = useState([]);
   const [ejerciciosActuales, setEjerciciosActuales] = useState([]);
   const [calentamientoCompletado, setCalentamientoCompletado] = useState(false);
-
-  const diasSemana = [
-    { id: 'lunes', texto: 'Lunes', inicial: 'L' },
-    { id: 'martes', texto: 'Martes', inicial: 'M' },
-    { id: 'miercoles', texto: 'Miércoles', inicial: 'X' },
-    { id: 'jueves', texto: 'Jueves', inicial: 'J' },
-    { id: 'viernes', texto: 'Viernes', inicial: 'V' },
-    { id: 'sabado', texto: 'Sábado', inicial: 'S' },
-    { id: 'domingo', texto: 'Domingo', inicial: 'D' }
-  ];
 
   useEffect(() => {
     setEjerciciosActuales(ejerciciosPorDia[diaSeleccionado] || []);
@@ -37,13 +28,14 @@ const RutinaEjercicios = () => {
   };
 
   // Determinar si mostrar el mensaje de progreso
-  const mostrarMensajeProgreso = !calentamientoCompletado && ejerciciosCompletados.length === 0;
+  const mostrarMensajeProgreso =
+    !calentamientoCompletado && ejerciciosCompletados.length === 0;
 
   return (
     <div className="container mt-4">
       <section id="rutina-ejercicios">
         <h2>Rutina de Ejercicios Diaria</h2>
-        
+
         {/* Tabla de días de la semana */}
         <table id="dias-semana">
           <tbody>
@@ -52,7 +44,7 @@ const RutinaEjercicios = () => {
                 <th
                   key={dia.id}
                   onClick={() => handleDiaClick(dia.id)}
-                  className={diaSeleccionado === dia.id ? 'selected' : ''}
+                  className={diaSeleccionado === dia.id ? "selected" : ""}
                   data-inicial={dia.inicial}
                 >
                   {dia.texto}
@@ -70,11 +62,11 @@ const RutinaEjercicios = () => {
             checked={calentamientoCompletado}
             onChange={(e) => setCalentamientoCompletado(e.target.checked)}
           />
-          <strong>Calentamiento:</strong><br />
-          5 minutos de cardio ligero (ej. caminar en el lugar), 5 minutos de
-          estiramientos dinámicos (ej. círculos de brazos, balanceo de piernas),
-          10 minutos de movilidad articular (ej. rotaciones de tobillos,
-          rodillas, caderas, hombros).
+          <strong>Calentamiento:</strong>
+          <br />5 minutos de cardio ligero (ej. caminar en el lugar), 5 minutos
+          de estiramientos dinámicos (ej. círculos de brazos, balanceo de
+          piernas), 10 minutos de movilidad articular (ej. rotaciones de
+          tobillos, rodillas, caderas, hombros).
         </p>
 
         {/* Tabla de ejercicios */}
@@ -121,16 +113,14 @@ const RutinaEjercicios = () => {
         {/* Sección de resultados */}
         <section id="resultados">
           <h2>Ejercicios Completados de la Semana</h2>
-          {calentamientoCompletado && (
-            <p>✓ Calentamiento inicial</p>
-          )}
+          {calentamientoCompletado && <p>✓ Calentamiento inicial</p>}
           {ejerciciosCompletados.map((ejercicio, index) => (
             <p key={index}>✓ {ejercicio.ejercicio}</p>
           ))}
           {mostrarMensajeProgreso && (
             <p className="progress-note">
-              Su progreso se registrará aquí. Puede rastrear sus logros y mejoras
-              a lo largo del tiempo.
+              Su progreso se registrará aquí. Puede rastrear sus logros y
+              mejoras a lo largo del tiempo.
             </p>
           )}
         </section>
