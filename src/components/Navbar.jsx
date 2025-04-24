@@ -39,12 +39,11 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-success w-100">
-      <div className="container-fluid px-4">
+      <div className="container-fluid px-1">
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <img src="/imagenes/logo.png" alt="Logo" className="logo-img me-2" />
-          <span>Neil</span>
+          <span>Estilo De Vida</span>
         </Link>
-        <h1>Estilo De Vida</h1>
         <button
           className="navbar-toggler"
           type="button"

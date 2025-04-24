@@ -17,9 +17,10 @@
 }
 
 .navbar-brand span {
-  font-size: 1.2rem;
+  font-size: 1.1rem; /* Tamaño ligeramente más pequeño */
   font-weight: bold;
-  color: rgb(0, 0, 0); /* Color del texto del logo */
+  color: rgb(0, 0, 0);
+  letter-spacing: 0.5px;
 }
 
 .navbar h1 {
@@ -31,38 +32,54 @@
 
 .navbar-nav {
   margin-left: auto;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
-.nav-item {
-  margin: 0 5px;
-}
-
-.nav-link {
+/* Estilo para el enlace activo - aplicará en todos los tamaños de pantalla */
+.nav-link.active {
+  background-color: #2e7d32;
   color: white !important;
-  transition: all 0.3s ease;
-  padding: 0.5rem 1rem !important;
-}
-
-.nav-link:hover {
-  opacity: 0.8;
-  background-color: rgba(255, 255, 255, 0.1);
+  font-weight: bold;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   border-radius: 4px;
 }
 
-/* Estilo para el enlace activo */
-.nav-link.active {
-  background-color: #2e7d32; /* Fondo verde oscuro */
-  color: white !important; /* Texto blanco */
-  font-weight: bold; /* Negrita */
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* Sombra sutil */
-  border-radius: 4px; /* Bordes redondeados */
-}
-
-
 /* Media queries para responsividad */
 @media (max-width: 991px) {
-  .navbar h1 {
-    font-size: 1.2rem;
+  .navbar-nav {
+    margin-left: 0;
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .nav-item {
+    width: 100%;
+    text-align: left;
+  }
+
+  .nav-link {
+    color: white !important;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.95rem; /* Tamaño base para pantallas grandes */
+    letter-spacing: 0.5px; /* Mejor espaciado entre letras */
+  }
+
+  .nav-link:hover {
+    opacity: 0.8;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  .navbar-brand span {
+    font-size: 1rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem !important;
   }
 
   .navbar-brand img.logo-img {
@@ -89,16 +106,28 @@
 }
 
 @media (max-width: 768px) {
-  .navbar h1 {
-    font-size: 1rem;
+  .navbar-brand span {
+    font-size: 0.9rem;
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem !important;
   }
 
   .navbar-brand img.logo-img {
     width: 30px;
     height: 30px;
   }
+}
 
+@media (max-width: 576px) {
   .navbar-brand span {
-    font-size: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .nav-link {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem !important;
   }
 }
