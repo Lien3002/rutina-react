@@ -28,7 +28,7 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{secrets.FIREBASE_SERVICE_ACCOUNT_higiene-vital}}' # Reemplaza HIGIENE_VITAL con el ID de tu proyecto de Firebase
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_HIGIENE_VITAL }}' # Asegúrate de que el secreto esté bien nombrado en GitHub
           channelId: live
           projectId: higiene-vital # Reemplaza higiene-vital con el ID de tu proyecto de Firebase
         env:
