@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { alimentosPorDia, diasSemana } from "./data/alimentos";
+import { alimentosPorDia } from "./data/alimentos";
+import { diasSemana } from "../constants/dias";
 import "../styles/Alimentacion.css";
 
 const Alimentacion = () => {
@@ -142,8 +143,8 @@ const Alimentacion = () => {
                   />
                 </td>
                 <td>{alimento.alimento}</td>
-                <td></td>
-                <td></td>
+                <td>{alimento.porcion}</td>
+                <td>{alimento.notas}</td>
               </tr>
             ))}
           </tbody>

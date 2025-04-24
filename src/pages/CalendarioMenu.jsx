@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 import "../styles/CalendarioMenu.css";
+import { diasSemana } from "../constants/dias"; // Importar la constante centralizada
 
 const CalendarioMenu = () => {
   const [mesActual, setMesActual] = useState(new Date().getMonth());
   const [anioActual, setAnioActual] = useState(new Date().getFullYear());
   const [menuSeleccionado, setMenuSeleccionado] = useState(null);
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
+  const [esPantallaPequena, setEsPantallaPequena] = useState( // Añadir estado para tamaño de pantalla
+    window.innerWidth <= 480
+  );
 
   const nombresMeses = [
     "Enero",
@@ -21,8 +25,6 @@ const CalendarioMenu = () => {
     "Noviembre",
     "Diciembre",
   ];
-
-  const diasSemana = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
   const menus = {
     "2025-04-19": {
@@ -47,6 +49,14 @@ const CalendarioMenu = () => {
     const hoy = new Date();
     handleDiaClick(hoy);
     setDiaSeleccionado(hoy.getDate());
+
+    // Añadir listener para redimensionamiento
+    const handleResize = () => {
+      setEsPantallaPequena(window.innerWidth <= 480);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []); // Se ejecuta solo al montar el componente
 
   const generarDiasCalendario = () => {
@@ -132,8 +142,10 @@ const CalendarioMenu = () => {
         <table className="calendario-tabla">
           <thead>
             <tr>
-              {diasSemana.map((dia) => (
-                <th key={dia}>{dia}</th>
+              {diasSemana.map((dia) => ( // Usar la constante importada
+                <th key={dia.id}> {/* Usar dia.id como key */}
+                  {esPantallaPequena ? dia.inicial : dia.texto} {/* Lógica condicional */}
+                </th>
               ))}
             </tr>
           </thead>

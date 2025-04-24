@@ -46,58 +46,6 @@
   margin-bottom: 20px;
 }
 
-.tabla-base {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.tabla-base th {
-  background-color: #4caf50;
-  color: white;
-  padding: 12px;
-  text-align: left;
-  border: 1px solid #ddd;
-}
-
-.tabla-base td {
-  padding: 12px;
-  border: 1px solid #ddd;
-}
-
-.tabla-base tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.tabla-base input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin: 0;
-  vertical-align: middle;
-}
-
-/* Estilos comunes para días de la semana */
-.dias-semana-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.dias-semana-tabla th {
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #ddd;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.dias-semana-tabla th.selected {
-  background-color: #2e7d32;
-  color: white;
-  font-weight: bold;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-}
 
 /* Media queries comunes */
 @media (max-width: 768px) {
@@ -110,11 +58,6 @@
     font-size: 0.9rem;
   }
 
-  .tabla-base th,
-  .tabla-base td,
-  .dias-semana-tabla th {
-    padding: 8px;
-    font-size: 0.9rem;
   }
 }
 
@@ -123,13 +66,4 @@
     font-size: 0.9rem;
   }
 
-  .dias-semana-tabla th {
-    font-size: 0;
-  }
-
-  .dias-semana-tabla th::after {
-    display: inline;
-    font-size: 14px;
-    content: attr(data-inicial);
-  }
 }

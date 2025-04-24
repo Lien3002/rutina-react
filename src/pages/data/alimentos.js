@@ -1,47 +1,38 @@
 export const alimentosPorDia = {
   lunes: [
-    { alimento: "Manzana", completar: false },
-    { alimento: "Plátano", completar: false },
-    { alimento: "Naranja", completar: false },
+    { alimento: "Manzana", porcion: "1 unidad", notas: "Mediana", completar: false },
+    { alimento: "Plátano", porcion: "1 unidad", notas: "Grande", completar: false },
+    { alimento: "Naranja", porcion: "1 unidad", notas: "Jugo o entera", completar: false },
   ],
   martes: [
-    { alimento: "Manzana", completar: false },
-    { alimento: "Plátano", completar: false },
-    { alimento: "Naranja", completar: false },
+    { alimento: "Manzana", porcion: "1 unidad", notas: "Mediana", completar: false },
+    { alimento: "Plátano", porcion: "1 unidad", notas: "Grande", completar: false },
+    { alimento: "Naranja", porcion: "1 unidad", notas: "Jugo o entera", completar: false },
   ],
   miercoles: [
-    { alimento: "Manzana", completar: false },
-    { alimento: "Plátano", completar: false },
-    { alimento: "Naranja", completar: false },
+    { alimento: "Manzana", porcion: "1 unidad", notas: "Mediana", completar: false },
+    { alimento: "Plátano", porcion: "1 unidad", notas: "Grande", completar: false },
+    { alimento: "Naranja", porcion: "1 unidad", notas: "Jugo o entera", completar: false },
   ],
   jueves: [
-    { alimento: "Manzana", completar: false },
-    { alimento: "Plátano", completar: false },
-    { alimento: "Naranja", completar: false },
+    { alimento: "Manzana", porcion: "1 unidad", notas: "Mediana", completar: false },
+    { alimento: "Plátano", porcion: "1 unidad", notas: "Grande", completar: false },
+    { alimento: "Naranja", porcion: "1 unidad", notas: "Jugo o entera", completar: false },
   ],
   viernes: [
-    { alimento: "Manzana", completar: false },
-    { alimento: "Plátano", completar: false },
-    { alimento: "Naranja", completar: false },
+    { alimento: "Manzana", porcion: "1 unidad", notas: "Mediana", completar: false },
+    { alimento: "Plátano", porcion: "1 unidad", notas: "Grande", completar: false },
+    { alimento: "Naranja", porcion: "1 unidad", notas: "Jugo o entera", completar: false },
   ],
   sabado: [
-    { alimento: "Manzana", completar: false },
-    { alimento: "Plátano", completar: false },
-    { alimento: "Naranja", completar: false },
+    { alimento: "Manzana", porcion: "1 unidad", notas: "Mediana", completar: false },
+    { alimento: "Plátano", porcion: "1 unidad", notas: "Grande", completar: false },
+    { alimento: "Naranja", porcion: "1 unidad", notas: "Jugo o entera", completar: false },
   ],
   domingo: [
-    { alimento: "Palta", completar: false },
-    { alimento: "Plátano", completar: false },
-    { alimento: "Naranja", completar: false },
+    { alimento: "Palta", porcion: "1/2 unidad", notas: "Mediana", completar: false },
+    { alimento: "Plátano", porcion: "1 unidad", notas: "Grande", completar: false },
+    { alimento: "Naranja", porcion: "1 unidad", notas: "Jugo o entera", completar: false },
   ],
 };
 
-export const diasSemana = [
-  { id: 'lunes', texto: 'Lunes', inicial: 'L' },
-  { id: 'martes', texto: 'Martes', inicial: 'M' },
-  { id: 'miercoles', texto: 'Miércoles', inicial: 'X' },
-  { id: 'jueves', texto: 'Jueves', inicial: 'J' },
-  { id: 'viernes', texto: 'Viernes', inicial: 'V' },
-  { id: 'sabado', texto: 'Sábado', inicial: 'S' },
-  { id: 'domingo', texto: 'Domingo', inicial: 'D' }
-];
