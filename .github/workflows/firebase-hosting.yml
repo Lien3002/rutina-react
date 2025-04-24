@@ -16,20 +16,20 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Usa la versión de Node.js que necesites
+          node-version: "20" # Usa la versión de Node.js que necesites
 
       - name: Install dependencies
         run: npm ci # Usa npm ci para instalaciones limpias en CI
 
       - name: Build project
-        run: npm run build # Asegúrate de que este script exista en tu package.json
+        run: npm run build && npm run buil # Asegúrate de que este script exista en tu package.json
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_HIGIENE_VITAL }}' # Asegúrate de que el secreto esté bien nombrado en GitHub
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_HIGIENE_VITAL }}" # Debe ser el JSON del proyecto higiene-vital
           channelId: live
-          projectId: higiene-vital # Reemplaza higiene-vital con el ID de tu proyecto de Firebase
+          projectId: higiene-vital
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
