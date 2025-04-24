@@ -23,10 +23,13 @@ const Navbar = () => {
     // Verifica si el navbar está expandido y si estamos en modo móvil
     if (window.innerWidth < 992 && navbarCollapse.current) {
       // Usa Bootstrap 5 collapse para cerrar el menú
-      const bsCollapse = new bootstrap.Collapse(navbarCollapse.current, {
-        toggle: false,
-      });
-      bsCollapse.hide();
+      // Verifica si bootstrap está disponible antes de usarlo
+      if (window.bootstrap && navbarCollapse.current) {
+        const bsCollapse = new window.bootstrap.Collapse(navbarCollapse.current, {
+          toggle: false,
+        });
+        bsCollapse.hide();
+      }
     }
   };
 
