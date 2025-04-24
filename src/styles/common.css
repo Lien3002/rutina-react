@@ -58,9 +58,7 @@
     font-size: 0.9rem;
   }
 
-  }
 }
-
 @media (max-width: 480px) {
   .form-group label {
     font-size: 0.9rem;

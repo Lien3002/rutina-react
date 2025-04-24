@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer
       id="main-footer"
-      className="bg-light text-center"
+      className="text-center"
       role="contentinfo"
     >
       <div className="container py-1">

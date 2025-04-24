@@ -1,6 +1,7 @@
 #main-footer {
   margin-top: 10px;
-  padding: 5px 5px; /* Reducido de 20px a 10px */
+  padding: 5px 5px;
+  background: #3b8458;
 }
 
 .social-links {
