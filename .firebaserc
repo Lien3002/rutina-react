@@ -3,7 +3,7 @@
     "default": "higiene-vital"
   },
   "targets": {
-    "rutina-4122c": {
+    "higiene-vital": {
       "hosting": {
         "hosting-higiene-vital": [
           "higiene-vital"

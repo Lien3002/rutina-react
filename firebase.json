@@ -1,7 +1,7 @@
 {
   "hosting": {
-    "target": "hosting-higiene-vital",
     "public": "dist",
+    "target": "hosting-higiene-vital",
     "ignore": [
       "firebase.json",
       "**/.*",
