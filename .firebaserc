@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "higiene-vital"
-  }
+  },
+  "targets": {
+    "rutina-4122c": {
+      "hosting": {
+        "hosting-higiene-vital": [
+          "higiene-vital"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
