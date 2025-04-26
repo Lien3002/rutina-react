@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import "../styles/CalendarioMenu.css";
-import { diasSemana } from "../constants/dias"; // Importar la constante centralizada
+import { diasSemana } from "../constants/dias";
+import { db, auth } from "../config/firebase";
+import { collection, doc, setDoc, getDoc, getDocs } from "firebase/firestore";
 
 const CalendarioMenu = () => {
   const [mesActual, setMesActual] = useState(new Date().getMonth());
   const [anioActual, setAnioActual] = useState(new Date().getFullYear());
   const [menuSeleccionado, setMenuSeleccionado] = useState(null);
   const [diaSeleccionado, setDiaSeleccionado] = useState(null);
-  const [esPantallaPequena, setEsPantallaPequena] = useState( // Añadir estado para tamaño de pantalla
+  const [esPantallaPequena, setEsPantallaPequena] = useState(
     window.innerWidth <= 480
   );
+  const [menus, setMenus] = useState({});
 
   const nombresMeses = [
     "Enero",
@@ -26,22 +29,47 @@ const CalendarioMenu = () => {
     "Diciembre",
   ];
 
-  const menus = {
-    "2025-04-19": {
-      titulo: "",
-      descripcion:
-        "Desayuno: Avena con frutas.<br>Almuerzo: Pollo a la plancha con ensalada.<br>Cena: Sopa de verduras.",
-    },
-    "2025-04-20": {
-      titulo: "",
-      descripcion:
-        "Desayuno: Tostadas integrales con aguacate.<br>Almuerzo: Pescado al horno con arroz.<br>Cena: Ensalada de atún.",
-    },
-    "2025-04-21": {
-      titulo: "",
-      descripcion:
-        "Desayuno: Omelette de espinaca.<br>Almuerzo: Lentejas guisadas con verduras.<br>Cena: Ensalada de atún y tomate.",
-    },
+  // Cargar menús de Firestore
+  useEffect(() => {
+    const cargarMenus = async () => {
+      if (!auth.currentUser) return;
+      
+      try {
+        const menusCollection = collection(db, `users/${auth.currentUser.uid}/menus`);
+        const menusSnapshot = await getDocs(menusCollection);
+        const menusData = {};
+        
+        menusSnapshot.forEach((doc) => {
+          menusData[doc.id] = doc.data();
+        });
+        
+        setMenus(menusData);
+      } catch (error) {
+        console.error("Error al cargar menús:", error);
+      }
+    };
+
+    cargarMenus();
+  }, [auth.currentUser]);
+
+  const agregarMenu = async (fecha, menu) => {
+    if (!auth.currentUser) {
+      alert("Debes iniciar sesión para guardar menús");
+      return;
+    }
+
+    try {
+      const menuRef = doc(db, `users/${auth.currentUser.uid}/menus/${fecha}`);
+      await setDoc(menuRef, menu);
+      
+      setMenus(prevMenus => ({
+        ...prevMenus,
+        [fecha]: menu
+      }));
+    } catch (error) {
+      console.error("Error al guardar el menú:", error);
+      alert("Error al guardar el menú. Por favor intenta de nuevo.");
+    }
   };
 
   useEffect(() => {
@@ -181,6 +209,22 @@ const CalendarioMenu = () => {
             <div
               dangerouslySetInnerHTML={{ __html: menuSeleccionado.descripcion }}
             />
+            <button
+              className="btn btn-primary mt-3"
+              onClick={() => {
+                if (diaSeleccionado) {
+                  const fecha = new Date(anioActual, mesActual, diaSeleccionado);
+                  const fechaStr = fecha.toISOString().split('T')[0];
+                  const nuevoMenu = {
+                    titulo: "",
+                    descripcion: prompt("Ingrese el menú para este día (use <br> para nuevas líneas):\nEjemplo:\nDesayuno: Avena\nAlmuerzo: Pollo\nCena: Sopa") || "No hay menú registrado para este día."
+                  };
+                  agregarMenu(fechaStr, nuevoMenu);
+                }
+              }}
+            >
+              {menus[new Date(anioActual, mesActual, diaSeleccionado).toISOString().split('T')[0]] ? 'Editar Menú' : 'Agregar Menú'}
+            </button>
           </>
         )}
       </div>
