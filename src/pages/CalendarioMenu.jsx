@@ -3,6 +3,7 @@ import "../styles/CalendarioMenu.css";
 import { diasSemana } from "../constants/dias";
 import { db, auth } from "../config/firebase";
 import { collection, doc, setDoc, getDoc, getDocs } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 const CalendarioMenu = () => {
   const [mesActual, setMesActual] = useState(new Date().getMonth());
@@ -13,6 +14,8 @@ const CalendarioMenu = () => {
     window.innerWidth <= 480
   );
   const [menus, setMenus] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   const nombresMeses = [
     "Enero",
@@ -30,12 +33,27 @@ const CalendarioMenu = () => {
   ];
 
   // Cargar menús de Firestore
+  // Escuchar cambios en el estado de autenticación
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Cargar menús cuando el usuario esté autenticado
   useEffect(() => {
     const cargarMenus = async () => {
-      if (!auth.currentUser) return;
+      if (!user) {
+        setMenus({});
+        return;
+      }
       
+      setIsLoading(true);
       try {
-        const menusCollection = collection(db, `users/${auth.currentUser.uid}/menus`);
+        const menusCollection = collection(db, `users/${user.uid}/menus`);
         const menusSnapshot = await getDocs(menusCollection);
         const menusData = {};
         
@@ -46,11 +64,13 @@ const CalendarioMenu = () => {
         setMenus(menusData);
       } catch (error) {
         console.error("Error al cargar menús:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     cargarMenus();
-  }, [auth.currentUser]);
+  }, [user]);
 
   const agregarMenu = async (fecha, menu) => {
     if (!auth.currentUser) {
@@ -203,7 +223,11 @@ const CalendarioMenu = () => {
       </div>
 
       <div id="menu-dia" className="menu-dia">
-        {menuSeleccionado && (
+        {isLoading ? (
+          <p>Cargando...</p>
+        ) : !user ? (
+          <p>Debes iniciar sesión para ver y agregar menús</p>
+        ) : menuSeleccionado && (
           <>
             <strong>{menuSeleccionado.titulo}</strong>
             <div
