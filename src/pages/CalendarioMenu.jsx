@@ -157,6 +157,7 @@ const CalendarioMenu = () => {
     const mesNombre = nombresMeses[parseInt(mes, 10) - 1];
     const fechaFormateada = `${dia} de ${mesNombre} de ${anio}`;
 
+    // Si existe un menú personalizado, lo usamos
     if (menus[fechaStr]) {
       const titulo =
         menus[fechaStr].titulo &&
@@ -168,11 +169,23 @@ const CalendarioMenu = () => {
       setMenuSeleccionado({
         titulo,
         descripcion: menus[fechaStr].descripcion,
+        esPredeterminado: false
       });
-    } else {
+    }
+    // Si no hay menú personalizado pero hay predeterminado, usamos el predeterminado
+    else if (menusDefault[fechaStr]) {
+      setMenuSeleccionado({
+        titulo: `Menú sugerido para ${fechaFormateada}`,
+        descripcion: menusDefault[fechaStr].descripcion,
+        esPredeterminado: true
+      });
+    }
+    // Si no hay ningún menú
+    else {
       setMenuSeleccionado({
         titulo: `Menú para ${fechaFormateada}`,
         descripcion: "No hay menú registrado para este día.",
+        esPredeterminado: false
       });
     }
   };
@@ -298,6 +311,11 @@ const CalendarioMenu = () => {
             <div
               dangerouslySetInnerHTML={{ __html: menuSeleccionado.descripcion }}
             />
+            {user && menuSeleccionado.esPredeterminado && (
+              <p className="text-muted mt-2">
+                Este es un menú sugerido. Puedes personalizarlo haciendo clic en "Agregar Menú".
+              </p>
+            )}
             <button
               className="btn btn-primary mt-3"
               onClick={async () => {
