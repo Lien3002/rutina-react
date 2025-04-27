@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "../styles/CalendarioMenu.css";
 import { diasSemana } from "../constants/dias";
 import { db, auth } from "../config/firebase";
-import { collection, doc, setDoc, getDoc, getDocs } from "firebase/firestore";
+import { collection, doc, setDoc, getDocs, enableIndexedDbPersistence, onSnapshot } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 const CalendarioMenu = () => {
@@ -33,49 +33,59 @@ const CalendarioMenu = () => {
     "Diciembre",
   ];
 
-  // Cargar menús de Firestore
-  // Escuchar cambios en el estado de autenticación
+  // Habilitar persistencia offline y escuchar cambios
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    // Habilitar persistencia offline
+    enableIndexedDbPersistence(db)
+      .catch((err) => {
+        if (err.code === 'failed-precondition') {
+          console.log("Multiple tabs open, persistence can only be enabled in one tab at a time.");
+        } else if (err.code === 'unimplemented') {
+          console.log("The current browser doesn't support persistence.");
+        }
+      });
+
+    let unsubscribeMenus = null;
+
+    // Escuchar cambios de autenticación
+    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setIsLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  // Cargar menús cuando el usuario esté autenticado
-  useEffect(() => {
-    const cargarMenus = async () => {
-      if (!user) {
-        setMenus({});
-        return;
-      }
-      
       setIsLoading(true);
       setError(null);
-      try {
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Esperar 1 segundo antes de intentar
-        await db.enableNetwork();
-        const menusCollection = collection(db, `users/${user.uid}/menus`);
-        const menusSnapshot = await getDocs(menusCollection);
-        const menusData = {};
-        
-        menusSnapshot.forEach((doc) => {
-          menusData[doc.id] = doc.data();
-        });
-        
-        setMenus(menusData);
-      } catch (error) {
-        console.error("Error al cargar menús:", error);
-        setError("Error al cargar los menús. Por favor, verifica tu conexión e intenta de nuevo.");
-      } finally {
+
+      if (currentUser) {
+        // Suscribirse a los cambios en los menús
+        const menusCollection = collection(db, `users/${currentUser.uid}/menus`);
+        unsubscribeMenus = onSnapshot(
+          menusCollection,
+          (snapshot) => {
+            const menusData = {};
+            snapshot.forEach((doc) => {
+              menusData[doc.id] = doc.data();
+            });
+            setMenus(menusData);
+            setIsLoading(false);
+          },
+          (error) => {
+            console.error("Error al observar menús:", error);
+            setError("Error al cargar los menús. Por favor, verifica tu conexión e intenta de nuevo.");
+            setIsLoading(false);
+          }
+        );
+      } else {
+        setMenus({});
         setIsLoading(false);
       }
-    };
+    });
 
-    cargarMenus();
-  }, [user]);
+    // Limpiar suscripciones
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeMenus) {
+        unsubscribeMenus();
+      }
+    };
+  }, []);
 
   const agregarMenu = async (fecha, menu) => {
     if (!auth.currentUser) {
