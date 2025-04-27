@@ -16,6 +16,7 @@ const CalendarioMenu = () => {
   const [menus, setMenus] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
 
   const nombresMeses = [
     "Enero",
@@ -52,7 +53,10 @@ const CalendarioMenu = () => {
       }
       
       setIsLoading(true);
+      setError(null);
       try {
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Esperar 1 segundo antes de intentar
+        await db.enableNetwork();
         const menusCollection = collection(db, `users/${user.uid}/menus`);
         const menusSnapshot = await getDocs(menusCollection);
         const menusData = {};
@@ -64,6 +68,7 @@ const CalendarioMenu = () => {
         setMenus(menusData);
       } catch (error) {
         console.error("Error al cargar menús:", error);
+        setError("Error al cargar los menús. Por favor, verifica tu conexión e intenta de nuevo.");
       } finally {
         setIsLoading(false);
       }
@@ -223,6 +228,38 @@ const CalendarioMenu = () => {
       </div>
 
       <div id="menu-dia" className="menu-dia">
+        {error && (
+          <div className="alert alert-danger">
+            {error}
+            <button
+              className="btn btn-link"
+              onClick={() => {
+                const cargarMenus = async () => {
+                  setError(null);
+                  setIsLoading(true);
+                  try {
+                    await db.enableNetwork();
+                    const menusCollection = collection(db, `users/${user.uid}/menus`);
+                    const menusSnapshot = await getDocs(menusCollection);
+                    const menusData = {};
+                    menusSnapshot.forEach((doc) => {
+                      menusData[doc.id] = doc.data();
+                    });
+                    setMenus(menusData);
+                  } catch (err) {
+                    console.error("Error al recargar menús:", err);
+                    setError("Error al cargar los menús. Por favor, verifica tu conexión e intenta de nuevo.");
+                  } finally {
+                    setIsLoading(false);
+                  }
+                };
+                cargarMenus();
+              }}
+            >
+              Reintentar
+            </button>
+          </div>
+        )}
         {isLoading ? (
           <p>Cargando...</p>
         ) : !user ? (
@@ -235,15 +272,30 @@ const CalendarioMenu = () => {
             />
             <button
               className="btn btn-primary mt-3"
-              onClick={() => {
+              onClick={async () => {
                 if (diaSeleccionado) {
-                  const fecha = new Date(anioActual, mesActual, diaSeleccionado);
-                  const fechaStr = fecha.toISOString().split('T')[0];
-                  const nuevoMenu = {
-                    titulo: "",
-                    descripcion: prompt("Ingrese el menú para este día (use <br> para nuevas líneas):\nEjemplo:\nDesayuno: Avena\nAlmuerzo: Pollo\nCena: Sopa") || "No hay menú registrado para este día."
-                  };
-                  agregarMenu(fechaStr, nuevoMenu);
+                  try {
+                    const fecha = new Date(anioActual, mesActual, diaSeleccionado);
+                    const fechaStr = fecha.toISOString().split('T')[0];
+                    const menuTexto = prompt(
+                      "Ingrese el menú para este día (use <br> para nuevas líneas):\n" +
+                      "Ejemplo:\n" +
+                      "Desayuno: Avena\n" +
+                      "Almuerzo: Pollo\n" +
+                      "Cena: Sopa"
+                    );
+                    
+                    if (menuTexto) {
+                      const nuevoMenu = {
+                        titulo: "",
+                        descripcion: menuTexto.replace(/\n/g, '<br>')
+                      };
+                      await agregarMenu(fechaStr, nuevoMenu);
+                    }
+                  } catch (error) {
+                    console.error("Error al agregar menú:", error);
+                    setError("Error al guardar el menú. Por favor, verifica tu conexión e intenta de nuevo.");
+                  }
                 }
               }}
             >
