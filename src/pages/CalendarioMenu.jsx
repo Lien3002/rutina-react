@@ -4,6 +4,7 @@ import { diasSemana } from "../constants/dias";
 import { db, auth } from "../config/firebase";
 import { collection, doc, setDoc, getDocs, enableIndexedDbPersistence, onSnapshot } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { menusDefault } from "../constants/menus-default";
 
 const CalendarioMenu = () => {
   const [mesActual, setMesActual] = useState(new Date().getMonth());
@@ -33,57 +34,64 @@ const CalendarioMenu = () => {
     "Diciembre",
   ];
 
-  // Habilitar persistencia offline y escuchar cambios
+  // Inicializar datos
   useEffect(() => {
-    // Habilitar persistencia offline
-    enableIndexedDbPersistence(db)
-      .catch((err) => {
-        if (err.code === 'failed-precondition') {
-          console.log("Multiple tabs open, persistence can only be enabled in one tab at a time.");
-        } else if (err.code === 'unimplemented') {
-          console.log("The current browser doesn't support persistence.");
-        }
-      });
-
-    let unsubscribeMenus = null;
-
+    // Comenzar con menús predeterminados
+    setMenus(menusDefault);
+    
     // Escuchar cambios de autenticación
     const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setIsLoading(true);
       setError(null);
-
+      
       if (currentUser) {
-        // Suscribirse a los cambios en los menús
-        const menusCollection = collection(db, `users/${currentUser.uid}/menus`);
-        unsubscribeMenus = onSnapshot(
-          menusCollection,
-          (snapshot) => {
-            const menusData = {};
-            snapshot.forEach((doc) => {
-              menusData[doc.id] = doc.data();
-            });
-            setMenus(menusData);
-            setIsLoading(false);
-          },
-          (error) => {
-            console.error("Error al observar menús:", error);
-            setError("Error al cargar los menús. Por favor, verifica tu conexión e intenta de nuevo.");
-            setIsLoading(false);
-          }
-        );
+        try {
+          // Habilitar persistencia offline
+          enableIndexedDbPersistence(db).catch((err) => {
+            if (err.code === 'failed-precondition') {
+              console.log("Multiple tabs open, persistence can only be enabled in one tab at a time.");
+            } else if (err.code === 'unimplemented') {
+              console.log("The current browser doesn't support persistence.");
+            }
+          });
+
+          // Suscribirse a los menús del usuario
+          const menusCollection = collection(db, `users/${currentUser.uid}/menus`);
+          const unsubscribeMenus = onSnapshot(
+            menusCollection,
+            (snapshot) => {
+              if (!snapshot.empty) {
+                const menusData = {};
+                snapshot.forEach((doc) => {
+                  menusData[doc.id] = doc.data();
+                });
+                setMenus(menusData);
+              }
+              setIsLoading(false);
+            },
+            (error) => {
+              console.error("Error al observar menús:", error);
+              setError("Error al cargar los menús. Por favor, verifica tu conexión e intenta de nuevo.");
+              setIsLoading(false);
+            }
+          );
+
+          return () => {
+            unsubscribeMenus();
+          };
+        } catch (error) {
+          console.error("Error al inicializar Firestore:", error);
+          setError("Error al inicializar la base de datos.");
+          setIsLoading(false);
+        }
       } else {
-        setMenus({});
         setIsLoading(false);
       }
     });
 
-    // Limpiar suscripciones
     return () => {
       unsubscribeAuth();
-      if (unsubscribeMenus) {
-        unsubscribeMenus();
-      }
     };
   }, []);
 
@@ -273,7 +281,17 @@ const CalendarioMenu = () => {
         {isLoading ? (
           <p>Cargando...</p>
         ) : !user ? (
-          <p>Debes iniciar sesión para ver y agregar menús</p>
+          <div>
+            <p>Estos son los menús predeterminados. Inicia sesión para personalizar tus propios menús.</p>
+            {menuSeleccionado && (
+              <>
+                <strong>{menuSeleccionado.titulo}</strong>
+                <div
+                  dangerouslySetInnerHTML={{ __html: menuSeleccionado.descripcion }}
+                />
+              </>
+            )}
+          </div>
         ) : menuSeleccionado && (
           <>
             <strong>{menuSeleccionado.titulo}</strong>
